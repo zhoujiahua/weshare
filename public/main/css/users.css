@@ -1,0 +1,43 @@
+@charset "UTF-8";
+.users .users-con {
+  box-sizing: border-box;
+  padding-top: 122px;
+  width: 352px;
+  margin: 0 auto;
+}
+.users .users-con .users-title {
+  box-sizing: border-box;
+  padding: 40px 0;
+  width: 100%;
+}
+.users .users-con .users-title h1 {
+  width: 100%;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 600;
+  color: #fff;
+}
+.users .users-con .user-form {
+  width: 100%;
+}
+.users .users-con .user-form .layui-form .layui-form-item .layui-input-inline {
+  width: 100%;
+}
+.users .users-con .user-form .layui-form .layui-form-item .layui-input-inline input,
+.users .users-con .user-form .layui-form .layui-form-item .layui-input-inline button {
+  height: 50px;
+  line-height: 50px;
+  border-radius: 10px;
+}
+.users .users-con .user-form .layui-form .layui-form-item .existing-account span,
+.users .users-con .user-form .layui-form .layui-form-item .existing-account a {
+  display: inline-block;
+  vertical-align: middle;
+  color: #fff;
+}
+.users .users-con .user-form .layui-form .layui-form-item .existing-account a {
+  color: #ef9632;
+}
+.users .users-con .user-form .layui-form .layui-form-item .users-submit .layui-btn-warm {
+  background-color: #ffde4c;
+}

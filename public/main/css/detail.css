@@ -1,0 +1,45 @@
+@charset "UTF-8";
+.detail .doc-con {
+  box-sizing: border-box;
+  min-height: 400px;
+}
+.detail .doc-con .detail-intro h3,
+.detail .doc-con .detail-attachment h3 {
+  font: 600 14px/40px "Microsoft YaHei";
+}
+.detail .doc-con .detail-intro p,
+.detail .doc-con .detail-attachment p {
+  font: 500 13px/30px "Microsoft YaHei";
+  text-indent: 2em;
+}
+.detail .doc-con .doc-title {
+  border-bottom: 1px solid #eee;
+}
+.detail .doc-con .doc-title h1 {
+  font: 600 18px/40px "Microsoft YaHei";
+  text-align: center;
+}
+.detail .doc-con .doc-title .doc-info {
+  text-align: center;
+}
+.detail .doc-con .doc-title .doc-info span {
+  display: inline-block;
+  font: 600 13px/40px "Microsoft YaHei";
+  margin-right: 18px;
+}
+.detail .doc-con .doc-title .doc-info span em {
+  font-weight: 500;
+}
+.detail .doc-con .doc-rate {
+  text-align: center;
+  box-sizing: border-box;
+  font: 500 13px/30px "Microsoft YaHei";
+}
+.detail .doc-con .doc-rate h4,
+.detail .doc-con .doc-rate div {
+  display: inline-block;
+  vertical-align: middle;
+}
+.detail .doc-con .doc-rate h4 {
+  font-weight: 600;
+}

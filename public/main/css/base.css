@@ -1,0 +1,92 @@
+@charset "UTF-8";
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+body {
+  font: 500 12px/150% "Microsoft YaHei";
+  color: #6e6e6e;
+  background-color: #eee;
+}
+@media screen and (min-width: 1200px) {
+  .layui-container {
+    width: 1200px;
+  }
+}
+.layui-container {
+  padding: initial;
+}
+.layui-form-select dl dd.layui-this {
+  background-color: #467cd5;
+  color: #fff;
+}
+.layui-btn-normal {
+  background-color: #467cd5;
+}
+.layui-btn-warm {
+  background-color: #ef9632;
+}
+.layui-btn-primary:hover {
+  border-color: #467cd5;
+}
+.layui-laydate .layui-this {
+  background-color: #467cd5 !important;
+  color: #fff !important;
+}
+.layui-form-onswitch {
+  border-color: #467cd5;
+  background-color: #467cd5;
+}
+/* 清除浮动 */
+.clearfix:before,
+.clearfix:after {
+  content: "";
+  display: table;
+}
+.clearfix:after {
+  height: 0;
+  line-height: 0;
+  visibility: hidden;
+  clear: both;
+}
+.clearfix {
+  *zoom: 1;
+  /*IE/7/6*/
+}
+/* 公共样式提取 */
+.w {
+  width: 1200px;
+  margin: 0 auto;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.al {
+  text-align: left;
+}
+.ac {
+  text-align: center;
+}
+.ar {
+  text-align: right;
+}
+.hide {
+  display: none;
+}
+.show {
+  display: block;
+}
+.ind {
+  text-indent: -9999em;
+}
+.bgactive {
+  background-color: #467cd5 !important;
+  color: #fff !important;
+}
+.fontactive {
+  color: #467cd5 !important;
+}

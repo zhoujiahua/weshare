@@ -1,0 +1,108 @@
+{{extend "./../layout/layout_c.html"}}
+{{block "style"}}
+<link rel="stylesheet" type="text/css" href="./../../admin/css/login.css" />
+{{/block}}
+
+{{block "wrapper"}}
+<div class="m-login-bg">
+	<div class="m-login">
+		<h3>后台系统登录</h3>
+		<div class="m-login-warp">
+			<form class="layui-form" lay-filter="loginText">
+				<div class="layui-form-item">
+					<input type="text" name="username" lay-filter="username" lay-verify="username" placeholder="用户名"
+						class="layui-input">
+				</div>
+				<div class="layui-form-item">
+					<input type="password" name="password" lay-filter="password" lay-verify="password" placeholder="密码"
+						class="layui-input">
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<input type="text" name="verity" lay-filter="verity" lay-verify="verity" placeholder="验证码"
+							class="layui-input">
+					</div>
+					<div class="layui-inline">
+						<img class="verifyImg" onclick="this.src=this.src+'?c='+Math.random();"
+							src="./../../admin/images/login/yzm.jpg" />
+					</div>
+				</div>
+				<div class="layui-form-item m-login-btn">
+					<div class="layui-inline">
+						<button class="layui-btn layui-btn-normal" lay-submit lay-filter="login">登录</button>
+					</div>
+					<div class="layui-inline">
+						<button type="reset" class="layui-btn layui-btn-primary">取消</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<p class="copyright">Copyright 2018-2019 by BLOOO.CN</p>
+	</div>
+</div>
+{{/block}}
+
+{{block "script"}}
+<script>
+	layui.use(["layer", 'form'], function () {
+		var layer = layui.layer,
+			form = layui.form,
+			$ = layui.$;
+
+		//自定义验证规则
+		form.verify({
+			username: function (value) {
+				if (value.length < 5) {
+					return '用户名5个字符以上';
+				}
+			},
+			password: [/(.+){6,12}$/, '密码必须6到12位'],
+			verity: [/(.+){6}$/, '验证码必须是6位'],
+		});
+
+		//监听提交
+		form.on('submit(login)', function (data) {
+			var data = data.field,
+				loadIndex;
+			$.ajax({
+				type: "POST",
+				url: "/api/admin/users/login",
+				data: data,
+				dataType: "json",
+				beforeSend: function () {
+					loadIndex = layer.load(2, {
+						shade: [0.4, '#fff']
+					});
+				},
+				success: function (res) {
+					var timer = null;
+					if (res.code) {
+						timer = setTimeout(function () {
+							window.clearTimeout(timer);
+							layer.msg(res.msg, {
+								icon: 2
+							});
+							return layer.close(loadIndex);
+						}, 600)
+					}
+					timer = setTimeout(function () {
+						window.clearTimeout(timer);
+						layer.close(loadIndex);
+						window.location.href = "/admin/pages"
+					}, 600)
+				}
+			});
+
+			return false;
+		})
+
+		//表单赋值
+		form.val("loginText", {
+			"username": "admin",
+			"password": "123456",
+			"verity": "abcdef"
+		})
+
+	});
+</script>
+{{/block}}
