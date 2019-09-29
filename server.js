@@ -92,7 +92,10 @@ app.use((err, req, res, next) => {
 })
 
 // Connect  Server
-mongoose.connect(keys.mongoURI)
+mongoose.connect(keys.mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
   .then(() => {
     console.log("数据库连接成功！")
     //启动服务器
