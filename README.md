@@ -8,5 +8,5 @@
 ```
 cd cifs
 npm install 
-node server.js
+node app.js
 ```

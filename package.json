@@ -2,10 +2,10 @@
   "name": "cifs",
   "version": "1.0.0",
   "description": "个人文件管理以及文件共享系统",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server.js"
+    "start": "node app.js",
+    "server": "nodemon app.js"
   },
   "author": "Zhou Jiahua",
   "license": "ISC",
