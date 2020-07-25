@@ -1,9 +1,9 @@
-# CIFS文件共享系统
-**本项目一套个人文件管理以及文件共享系统，项目基于NodeJS语言、Express框架、MongoDB数据库开发，页面渲染基于art-template模版引擎，UI框架Layui前端框架编写。**
+# CIFS file sharing system
+**This project is a set of personal file management and file sharing system. The project is developed based on NodeJS language, Express framework and MongoDB database. The page rendering is based on art-Template template engine and the UI framework Layui front-end framework.**
 
-**1）NodeJS版本不低于8.x.x**
+**1) NodeJS version is no less than 8.x.x**
 
-**2）项目运行前请在config目录keys文件中配置mongoURI（MongoDB）数据库存储路径。**
+**2) Before running the project, please configure the storage path of mongoURI (MongoDB) database in the config directory Keys file.**
 
 ```
 cd cifs

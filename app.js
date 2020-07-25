@@ -1,24 +1,32 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
+const createError = require('http-errors');
+const express = require('express');
 const session = require("express-session");
-const app = express();
+const cookieParser = require('cookie-parser');
 const keys = require("./config/keys");
-const tools = require("./comm/tools");
+const logger = require('morgan');
+const cors = require('cors');
+const path = require('path');
+const app = express();
 
-//允许跨域
-app.all('*', function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With');
-  res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-  if (req.method == 'OPTIONS') {
-    res.send(200);
-  } else {
-    next();
-  }
-});
+/**
+ * Init libaray
+ * */
+app.use(cors());
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: false
+}));
+app.use(cookieParser());
 
-// session
+/**
+ * Set static public catlog
+ * */
+app.use(express.static(path.join(__dirname, 'public')));
+
+/**
+ * Set session
+ * */
 app.use(session({
   secret: keys.sessionOrKey,
   resave: false,
@@ -29,16 +37,9 @@ app.use(session({
   }
 }))
 
-// 使用body-parser中间件
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
-app.use(bodyParser.json());
-
-//设置静态公共目录
-app.use(express.static(__dirname + "/public"));
-
-//文件目录权限控制
+/**
+ * File directory permission control
+ * */
 app.use("/uploads", (req, res, next) => {
   if (!req.session.userid) {
     return res.redirect("/users/login");
@@ -46,7 +47,9 @@ app.use("/uploads", (req, res, next) => {
   next();
 }, express.static(__dirname + "/uploads"));
 
-//art-template
+/**
+ * Art template
+ * */
 app.set('view cache', false);
 app.set('views', './views');
 app.set('view engine', 'html');
@@ -55,7 +58,9 @@ app.set('view options', {
   debug: process.env.NODE_ENV !== 'production'
 });
 
-// 使用routes
+/**
+ * Routes page
+ * */
 app.use("/", require("./routes/index/index"))
 app.use("/main", require("./routes/main/pages"));
 app.use("/users", require("./routes/main/users"));
@@ -74,36 +79,24 @@ app.use("/api/admin/comm", require("./routes/api/admin/comm"));
 
 app.use("/upload", require('./routes/upload/upload'));
 
-// catch 404
+/**
+ * catch 404 and forward to error handler
+ * */
 app.use((req, res, next) => {
-  let err = new Error("Not Found");
-  err.status = 404;
-  next(err);
-})
-app.use((err, req, res, next) => {
-  res.status(err.status || 500);
-  res.render("main/error/error", {
-    message: err.message,
-    error: {
-      status: err.status,
-      desc: "不好意思你的页面被狗叼走了！"
-    }
-  });
-})
+  next(createError(404));
+});
 
-// Start Server
-const PORT = process.env.PORT || 5000;
-(async () => {
-  try {
-    await mongoose.connect(keys.mongoURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
-    console.log("Database connect success...");
-    app.listen(PORT, () => {
-      console.log(`Start service:http://localhost:${PORT}`);
-    })
-  } catch (error) {
-    console.log(error);
-  }
-})()
+/**
+ * Error handler
+ * */
+app.use((err, req, res, next) => {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+module.exports = app;
