@@ -1,22 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const session = require("express-session");
-const app = express();
+const cors = require("cors");
 const keys = require("./config/keys");
-const tools = require("./comm/tools");
+const app = express();
 
-//允许跨域
-app.all('*', function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With');
-  res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-  if (req.method == 'OPTIONS') {
-    res.send(200);
-  } else {
-    next();
-  }
-});
+// init libaray
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: false
+}));
 
 // session
 app.use(session({
@@ -28,12 +22,6 @@ app.use(session({
     maxAge: 1000 * 60 * 30, // 设置 session 的有效时间，单位毫秒
   }
 }))
-
-// 使用body-parser中间件
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
-app.use(bodyParser.json());
 
 //设置静态公共目录
 app.use(express.static(__dirname + "/public"));
