@@ -1,7 +1,7 @@
 {
   "name": "cifs",
   "version": "1.0.0",
-  "description": "个人文件管理以及文件共享系统",
+  "description": "File management and file sharing",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
