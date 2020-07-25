@@ -1,0 +1,135 @@
+{{extend "./../layout/layout_b.html"}}
+
+{{block "style"}}
+<link rel="stylesheet" href="./../main/css/users.css">
+<link rel="stylesheet" href="./../main/css/login.css">
+{{/block}}
+
+{{block "content"}}
+<div class="users login">
+    <div class="layui-container">
+        <div class="users-con">
+            <div class="users-title">
+                <h1>文件管理系统</h1>
+            </div>
+            <div class="user-form">
+                <form class="layui-form" action="" lay-filter="loginText">
+                    <div class="layui-form-item">
+                        <div class="layui-input-inline">
+                            <input type="text" name="email" lay-verify="email" autocomplete="off" placeholder="请输入用户邮箱"
+                                class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-inline">
+                            <input type="password" name="password" lay-verify="password" placeholder="请输入密码"
+                                autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="existing-account clearfix">
+                            <div class="fl">
+                                <span>没有账号？</span>
+                                <a href="/users/register">去注册</a>
+                            </div>
+                            <div class="fr">
+                                <a href="/users/forgetpwd">忘记密码</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-inline users-submit">
+                            <button type="button" class="layui-btn layui-btn-warm layui-btn-fluid" id="loginBtn"
+                                lay-submit="" lay-filter="loginBtn">登录</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{/block}}
+
+{{block "script"}}
+<script src="./../../main/js/login.js"></script>
+<script>
+    layui.use(['layer', 'form', "comm"], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            comm = layui.comm,
+            $ = layui.$;
+
+        //自定义验证规则
+        form.verify({
+            username: function (value) {
+                if (value.length <= 0) {
+                    return '用户名不能为空！';
+                }
+            },
+            email: [/^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/, '邮箱格式不正确！'],
+            password: [
+                /^[\S]{6,12}$/, '密码不能为空必须6到12位，且不能出现空格'
+            ]
+        });
+
+        //绑定回车提交事件
+        comm.bindKeyEvent("#loginBtn");
+
+        //监听提交
+        form.on('submit(loginBtn)', function (data) {
+            var d = data.field,
+                indexLoad = null,
+                timer = null;
+
+            //登录请求
+            $.ajax({
+                type: "POST",
+                url: "/api/main/users/login",
+                data: d,
+                dataType: "json",
+                beforeSend: function () {
+                    indexLoad = layer.load(0, {
+                        shade: [0.4, '#fff']
+                    });
+                },
+                success: function (res) {
+                    if (res.code) {
+                        timer = setTimeout(function () {
+                            return layer.msg(res.msg, {
+                                icon: 2,
+                                time: 500
+                            }, function () {
+                                window.clearTimeout(timer);
+                                layer.close(indexLoad);
+                            })
+                        }, 800)
+                    } else {
+                        //用户信息本地化
+                        layui.sessionData("users", {
+                            key: "data",
+                            value: res.users
+                        })
+                        timer = setTimeout(function () {
+                            layer.msg(res.msg, {
+                                icon: 1,
+                                time: 500
+                            }, function () {
+                                window.clearTimeout(timer);
+                                layer.close(indexLoad);
+                                window.location.href = "/main/index";
+                            })
+                        }, 800)
+                    }
+                }
+            });
+            return false;
+        });
+
+        //账户名保存
+        form.val('loginText', {
+            "email": layui.sessionData("users").data.email
+        })
+
+    });
+</script>
+{{/block}}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="keywords" content="{{ keyw }}" />
+    <meta name="description" content="{{ desc }}" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta name="renderer" content="webkit">
+    <title>{{ title }}</title>
+
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="./../../lib/reset.css" />
+    <link rel="stylesheet" type="text/css" href="./../../lib/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="./../../main/css/base.css" />
+    <link rel="stylesheet" type="text/css" href="./../../main/css/layout_b.css" />
+    {{block "style"}}{{/block}}
+
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <div class="wrapper">
+        {{block "wrapper"}}
+        <div class="header">
+            <!-- logo-search -->
+            <div class="logo-search">
+                <div class="layui-container">
+                    <div class="layui-col-xs5">
+                        <h1 class="logo">
+                            <a href="/main/index">
+                                <img src="./../../main/images/logo.png" alt="小掌部落文件系统">
+                            </a>
+                        </h1>
+                    </div>
+                    <div class="layui-col-xs7"></div>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            {{block "content"}}{{/block}}
+        </div>
+        <div class="footer">
+            <div class="layui-container">
+                <div class="foot">
+                    <p>京 ICP 证 040431 号网络出版服务许可证 (总)网出证(京)字第 271 号出版物经营许可证经营性网站备案信息</p>
+                    <p>京公网安备 11010802020460 号 《中国学术期刊（光盘版）》电子杂志社有限公司</p>
+                    <p> KDN 平台基础技术由 KBASE 11.0 提供.</p>
+                </div>
+            </div>
+        </div>
+        {{/block}}
+    </div>
+
+    <!-- js -->
+    <script src="./../../lib/layui/layui.js"></script>
+    <script src="./../../comm/main_config.js"></script>
+    <script src="./../../main/js/layout_b.js"></script>
+    {{block "script"}}{{/block}}
+</body>
+
+</html>

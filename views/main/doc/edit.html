@@ -1,0 +1,158 @@
+{{extend "./../layout/layout_a.html"}}
+
+{{block "style"}}
+<link rel="stylesheet" href="./../../main/css/users.css">
+<link rel="stylesheet" href="./../../main/css/doc.css">
+<link rel="stylesheet" href="./../../main/css/edit.css">
+{{/block}}
+
+{{block "content"}}
+<!-- main-current -->
+{{ include "./../tpl/main_current.html" }}
+
+<!-- hidden 数据储存 -->
+<input type="hidden" id="dataID" data-item="{{ data }}">
+
+<!-- main-content -->
+<div class="main-content">
+    <div class="layui-container">
+        <div class="main-doc edit-page">
+            <div class="doc-con">
+                <form class="layui-form" action="" lay-filter="addText">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">文档标题：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="titleName" lay-verify="titleName" placeholder="请输入标题"
+                                autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">老师名称：</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="authorName" lay-verify="authorName" placeholder="请输入老师名称"
+                                autocomplete="off" class="layui-input layui-disabled" disabled>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">学科选择：</label>
+                        <div class="layui-input-block">
+                            <select name="subjectName" lay-verify="required">
+                                <!-- <option value=""></option>
+                                <option value="0">语文</option>
+                                <option value="1">数学</option>
+                                <option value="2">英语</option>
+                                <option value="3">化学</option>
+                                <option value="4">生物</option> -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">年级选择：</label>
+                        <div class="layui-input-block">
+                            <select name="gradeName" lay-verify="required">
+                                <!-- <option value=""></option>
+                                <option value="0">一年级</option>
+                                <option value="1">二年级</option>
+                                <option value="2">三年级</option>
+                                <option value="3">四年级</option>
+                                <option value="4">五年级</option> -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否共享：</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="shareState" lay-skin="switch">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">文档封面：</label>
+                        <div class="layui-input-block">
+                            <div class="upload-img layui-elip layui-upload">
+                                <div class="upload-btn layui-elip">
+                                    <button type="button" class="layui-btn layui-btn-normal"
+                                        id="selectImg">选择封面</button>
+                                    <button type="button" class="layui-btn layui-btn-normal" id="startImg">开始上传</button>
+                                </div>
+                                <div class="upload-list layui-elip">
+                                    <div class="img-view">
+                                        <img class="layui-upload-img layui-elip" src="/{{ data.coverImg }}"
+                                            id="uploadImg">
+                                    </div>
+                                    <div class="img-msg">
+                                        <h3 id="imgMsgText"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">文档简介：</label>
+                        <div class="layui-input-block">
+                            <textarea name="introText" lay-verify="introText" placeholder="请输入文档简介..."
+                                class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">我的附件：</label>
+                        <div class="layui-input-block" lay-fileter="files">
+                            <div class="upload-files layui-elip layui-upload">
+                                <div class="upload-btn">
+                                    <button type="button" class="layui-btn layui-btn-normal" id="selectFiles">
+                                        <i class="layui-icon">&#xe67c;</i>
+                                        <span>选择文件</span>
+                                    </button>
+                                    <button type="button" class="layui-btn layui-btn-normal"
+                                        id="actionBtn">开始上传</button>
+                                </div>
+                                <div class="upload-list">
+                                    <div class="layui-upload-list">
+                                        <table class="layui-table">
+                                            <colgroup>
+                                                <col>
+                                                <col width="200">
+                                                <col width="150">
+                                                <col width="150">
+                                                <col width="150">
+                                            </colgroup>
+                                            <thead>
+                                                <tr>
+                                                    <th class="layui-elip">文件名称</th>
+                                                    <th class="layui-elip">文件状态</th>
+                                                    <th class="layui-elip">文件大小</th>
+                                                    <th class="layui-elip">文件格式</th>
+                                                    <th class="layui-elip">文件操作</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="filesListsHtml"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">发布时间：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" class="layui-input" id="createDate" placeholder="请输入发布时间！">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="submitBtn">保存</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{/block}}
+
+{{block "script"}}
+<script src="./../../data/commdata.js"></script>
+<script src="./../../lib/moment.js"></script>
+<script src="./../../lib/lodash.min.js"></script>
+<script src="./../../main/js/edit.js"></script>
+{{/block}}

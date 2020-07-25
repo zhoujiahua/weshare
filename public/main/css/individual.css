@@ -1,0 +1,15 @@
+@charset "UTF-8";
+.main .main-content .content-con {
+  box-sizing: border-box;
+  padding: 16px 40px;
+}
+.main .main-content .content-con .content-list {
+  min-height: 560px;
+}
+.main .main-content .content-con .content-list .list-share .layui-form-switch {
+  margin-top: 0;
+}
+.main .main-content .content-con .content-list .list-share .layui-form-onswitch {
+  border-color: #467cd5;
+  background-color: #467cd5;
+}

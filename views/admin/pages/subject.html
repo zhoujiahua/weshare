@@ -1,0 +1,368 @@
+{{extend "./../layout/layout.html"}}
+{{block "style"}}
+<link rel="stylesheet" href="./../../admin/css/pages.css">
+{{/block}}
+
+{{block "content"}}
+<div class="page-content-wrap">
+	<div class="layui-form" id="table-list">
+		<table id="renderTable" lay-filter="tableList"></table>
+	</div>
+</div>
+{{/block}}
+
+{{block "script"}}
+<!-- 添加弹框 -->
+<script type="text/html" id="addHtml">
+	<div class="add-content" style="padding-top:30px;">
+		<div class="layui-form">
+			<div class="layui-form-item">
+				<label class="layui-form-label">学科</label>
+				<div class="layui-input-inline">
+					<input type="text" name="subject_name" lay-verify="subject_name" placeholder="学科名称" autocomplete="off"
+						class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">排序</label>
+				<div class="layui-input-inline">
+					<input type="text" name="subject_sort" lay-verify="subject_sort" placeholder="排序" autocomplete="off"
+						class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">状态</label>
+				<div class="layui-input-inline">
+					<input type="checkbox" name="subject_status" value="1" lay-filter="subject_status" lay-skin="switch"
+						checked>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<!-- 工具栏模板 -->
+<script type="text/html" id="toolbarDemo">
+	<div class="layui-btn-container">
+		<button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe654;</i></button>
+		<button class="layui-btn layui-btn-warm layui-btn-sm" lay-event="delete"><i class="iconfont">&#xe656;</i></button>
+		<button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="update"><i
+				class="layui-icon">&#xe642;</i></button>
+	</div>
+</script>
+
+<!-- 操作按钮 -->
+<script type="text/html" id="barDemo">
+	<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i></a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon">&#xe640;</i></a>
+</script>
+
+<!-- 编辑弹框 -->
+<script type="text/html" id="editHtml">
+	<div class="add-content" style="padding-top:30px;">
+		<div class="layui-form">
+			<div class="layui-form-item">
+				<label class="layui-form-label">ID</label>
+				<div class="layui-input-inline">
+					<input type="text" name="subject_id" lay-verify="subject_id" disabled placeholder="ID"
+						autocomplete="off" class="layui-input layui-disabled" value="">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">学科</label>
+				<div class="layui-input-inline">
+					<input type="text" name="subject_name" lay-verify="subject_name" placeholder="学科名称" autocomplete="off"
+						class="layui-input" value="">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">排序</label>
+				<div class="layui-input-inline">
+					<input type="text" name="subject_sort" lay-verify="subject_sort" placeholder="排序" autocomplete="off"
+						class="layui-input" value="">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">状态</label>
+				<div class="layui-input-inline">
+					<input type="checkbox" name="subject_status" value="" lay-filter="subject_status" lay-skin="switch"
+						checked>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<!-- js -->
+<script src="./../../lib/moment.js"></script>
+<script>
+	layui.use(["layer", "laypage", "tool", "form", "table"], function () {
+		var layer = layui.layer,
+			laypage = layui.laypage,
+			table = layui.table,
+			form = layui.form,
+			tool = layui.tool,
+			$ = layui.$;
+
+		//表格渲染
+		tableList;
+		var tableList = table.render({
+			elem: '#renderTable',
+			id: "mm",
+			skin: "line",
+			size: "lg",
+			toolbar: '#toolbarDemo',
+			height: 700,
+			url: '/api/admin/comm/subject/pages', //数据接口
+			page: true, //开启分页
+			cellMinWidth: 80,
+			cols: [
+				[{
+						type: 'checkbox',
+						fixed: 'left'
+					},
+					{
+						field: '_id',
+						title: 'ID',
+						// hide: true
+					},
+					{
+						field: 'subject_sort',
+						title: '排序',
+						sort: true,
+					}, {
+						field: 'subject_status',
+						title: '状态',
+						templet: function (res) {
+							return res.subject_status ? "显示" : "隐藏";
+						}
+					}, {
+						field: 'subject_name',
+						title: '学科名称',
+					}, {
+						field: 'subject_time',
+						title: '加入时间',
+						sort: true,
+						templet: function (res) {
+							return moment(res.subject_time).format("YYYY-MM-DD HH:mm:ss")
+						}
+					},
+					{
+						fixed: 'right',
+						title: '操作',
+						toolbar: '#barDemo',
+					}
+				]
+			],
+			parseData: function (res) {
+				//数据格式转换
+				// $.each(res.data, function (k, v) {
+				// 	v.subject_time = moment(v.subject_time).format("YYYY-MM-DD HH:mm:ss")
+				// 	if (v.subject_status) {
+				// 		v.subject_status = "显示";
+				// 	} else {
+				// 		v.subject_status = "隐藏";
+				// 	}
+				// });
+				// return res;
+			}
+		});
+
+		//监听事件
+		table.on('toolbar(tableList)', function (obj) {
+			var checkStatus = table.checkStatus(obj.config.id);
+			switch (obj.event) {
+				case 'add':
+					layer.open({
+						type: 1,
+						title: "添加学科",
+						closeBtn: 1,
+						area: '380px;',
+						shade: 0.8,
+						id: 'LAY_layuipro', //设定一个id，防止重复弹出
+						btn: ['确定', '关闭'],
+						btnAlign: 'c',
+						resize: false,
+						move: true,
+						moveType: 1, //拖拽模式，0或者1
+						content: $("#addHtml").html(),
+						success: function (layero) {
+							form.render();
+							form.on('switch(subject_status)', function (data) {
+								if (this.checked) {
+									this.value = 1
+								} else {
+									this.value = 0
+								}
+							})
+						},
+						yes: function (index, layero) {
+							var subject_name = $('[name="subject_name"]').val(),
+								subject_sort = $('[name="subject_sort"]').val(),
+								subject_status = $('[name="subject_status"]').val(),
+								loadIndex = null;
+							if (!subject_name.trim()) {
+								return layer.msg("学科名称不能为空", {
+									icon: 2
+								});
+							}
+							$.ajax({
+								type: "POST",
+								url: "/api/admin/pages/subject",
+								data: {
+									subject_name: subject_name,
+									subject_sort: subject_sort,
+									subject_status: subject_status
+								},
+								dataType: "json",
+								beforeSend: function () {
+									loadIndex = layer.load(1);
+								},
+								success: function (res) {
+									var timer = null;
+									if (res.code) {
+										timer = setTimeout(function () {
+											layer.msg(res.msg, {
+												icon: 2
+											})
+											layer.close(loadIndex);
+											window.clearTimeout(timer);
+											return false;
+										}, 600);
+									} else {
+										timer = setTimeout(function () {
+											layer.msg(res.msg, {
+												icon: 1
+											});
+											layer.close(loadIndex);
+											window.clearTimeout(timer);
+											layer.close(index);
+											tableList.reload();
+										}, 600)
+									}
+								}
+							});
+						}
+					});
+					break;
+				case 'delete':
+					layer.msg('排序');
+					break;
+				case 'update':
+					layer.msg('编辑');
+					break;
+			};
+		});
+
+		//监听工具条
+		table.on('tool(tableList)', function (obj) {
+			var d = obj.data;
+			if (obj.event === 'del') {
+				layer.confirm('您确定要进行删除吗？', function (index) {
+					$.getJSON("/api/admin/pages/subject/delete/" + d._id, {},
+						function (res) {
+							if (res.code) {
+								return layer.msg(res.msg, {
+									icon: 2
+								});
+							}
+							layer.msg(res.msg, {
+								icon: 1,
+								time: 600
+							}, function () {
+								obj.del();
+								layer.close(index);
+								tableList.reload();
+							});
+						}
+					);
+				});
+			} else if (obj.event === 'edit') {
+				layer.open({
+					type: 1,
+					title: "学科编辑",
+					closeBtn: 1,
+					area: '380px;',
+					shade: 0.8,
+					id: 'LAY_layuipro', //设定一个id，防止重复弹出
+					btn: ['确定', '关闭'],
+					btnAlign: 'c',
+					resize: false,
+					move: true,
+					moveType: 1, //拖拽模式，0或者1
+					content: $("#editHtml").html(),
+					success: function (layero) {
+						form.on('switch(subject_status)', function (data) {
+							if (this.checked) {
+								this.value = 1
+							} else {
+								this.value = 0
+							}
+						})
+						$('[name="subject_id"]').val(d._id);
+						$('[name="subject_name"]').val(d.subject_name);
+						$('[name="subject_sort"]').val(d.subject_sort);
+						$('[name="subject_status"]').val(d.subject_status ? 1 : 0);
+						if (d.subject_status) {
+							$('[name="subject_status"]').prop("checked", true);
+						} else {
+							$('[name="subject_status"]').prop("checked", false);
+						}
+						form.render();
+					},
+					yes: function (index, layero) {
+						var subject_id = $('[name="subject_id"]').val(),
+							subject_name = $('[name="subject_name"]').val(),
+							subject_sort = $('[name="subject_sort"]').val(),
+							subject_status = $('[name="subject_status"]').val(),
+							loadIndex = null;
+						if (!subject_name.trim()) {
+							return layer.msg("学科名称不能为空", {
+								icon: 2
+							});
+						}
+						$.ajax({
+							type: "POST",
+							url: "/api/admin/pages/subject/edit",
+							data: {
+								id: subject_id,
+								subject_name: subject_name,
+								subject_sort: subject_sort,
+								subject_status: subject_status
+							},
+							dataType: "json",
+							beforeSend: function () {
+								loadIndex = layer.load(1);
+							},
+							success: function (res) {
+								var timer = null;
+								if (res.code) {
+									timer = setTimeout(function () {
+										layer.msg(res.msg, {
+											icon: 2
+										})
+										layer.close(loadIndex);
+										window.clearTimeout(timer);
+										return false;
+									}, 600);
+
+								} else {
+									timer = setTimeout(function () {
+										layer.msg(res.msg, {
+											icon: 1
+										});
+										layer.close(loadIndex);
+										layer.close(index);
+										// window.location.reload();
+										tableList.reload();
+									}, 600);
+								}
+							}
+						});
+					}
+				});
+			}
+		});
+	})
+</script>
+{{/block}}

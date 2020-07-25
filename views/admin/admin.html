@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="keywords" content="{{ keyw }}" />
+    <meta name="description" content="{{ desc }}" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta name="renderer" content="webkit">
+    <title>{{ title }}</title>
+
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="./../../lib/reset.css" />
+    <link rel="stylesheet" type="text/css" href="./../../lib/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="./../../admin/css/base.css" />
+    <link rel="stylesheet" type="text/css" href="./../../admin/css/layout.css" />
+
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <!-- hidden data -->
+    <input type="hidden" id="userData" data-item="{{ data }}">
+
+    <div class="wrapper">
+        <div class="wrap-left" id="leftAside">
+            <div class="aside">
+                <div class="aside-top">
+                    <a href="/admin/pages">
+                        <h1>CNKI文件系统</h1>
+                    </a>
+                </div>
+                <div class="aside-menu">
+                    <ul class="layui-nav layui-nav-tree" lay-filter="leftSideUl" id="leftSideUl">
+                        <li class="layui-nav-item layui-this" data-link="/admin/pages/home">
+                            <a href="javascript:;">
+                                <i class="layui-icon">&#xe7ae;</i>
+                                <span>系统主页</span>
+                            </a>
+                        </li>
+                        <li class="layui-nav-item" data-link="/admin/pages/plan">
+                            <a href="javascript:;">
+                                <i class="layui-icon">&#xe705;</i>
+                                <span>文件管理</span>
+                            </a>
+                        </li>
+                        <li class="layui-nav-item" data-link="/admin/pages/subject">
+                            <a href="javascript:;">
+                                <i class="layui-icon">&#xe656;</i>
+                                <span>学科设置</span>
+                            </a>
+                        </li>
+                        <li class="layui-nav-item" data-link="/admin/pages/grade">
+                            <a href="javascript:;">
+                                <i class="layui-icon">&#xe663;</i>
+                                <span>年级设置</span>
+                            </a>
+                        </li>
+                        <li class="layui-nav-item" data-link="/admin/pages/users">
+                            <a href="javascript:;">
+                                <i class="layui-icon">&#xe770;</i>
+                                <span>用户管理</span>
+                            </a>
+                        </li>
+                        <li class="layui-nav-item" data-link="/admin/pages/infos">
+                            <a href="javascript:;">
+                                <i class="layui-icon">&#xe66f;</i>
+                                <span>个人信息</span>
+                            </a>
+                        </li>
+                        <li class="layui-nav-item" data-link="/admin/pages/system">
+                            <a href="javascript:;">
+                                <i class="layui-icon">&#xe614;</i>
+                                <span>系统设置</span>
+                            </a>
+                        </li>
+                        <li class="layui-nav-item" data-link="/admin/pages/home">
+                            <a href="javascript:;">
+                                <i class="layui-icon">&#xe679;</i>
+                                <span>备份管理</span>
+                            </a>
+                        </li>
+                        <li class="layui-nav-item" data-link="/admin/pages/home">
+                            <a href="javascript:;">
+                                <i class="layui-icon">&#xe64c;</i>
+                                <span>友情链接</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="wrap-right" id="rightAside">
+            <div class="wrap-body">
+                <div class="header">
+                    <div class="header-nav">
+                        <div class="layui-header">
+                            <div class="layui-logo">
+                                <ul class="layui-nav">
+                                    <li class="layui-nav-item">
+                                        <a href="javascript:;" lay-actvie="sva" title="侧边伸缩">
+                                            <i class="layui-icon layui-icon-shrink-right"></i>
+                                        </a>
+                                    </li>
+                                    <li class="layui-nav-item layui-hide-xs">
+                                        <a href="javascript:;" lay-actvie="svb" title="前台">
+                                            <i class="layui-icon layui-icon-website"></i>
+                                        </a>
+                                    </li>
+                                    <li class="layui-nav-item">
+                                        <a href="javascript:;" lay-actvie="svc" title="刷新">
+                                            <i class="layui-icon layui-icon-refresh-3"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- 头部区域（可配合layui已有的水平导航） -->
+                            <ul class="layui-nav layui-layout-left">
+                                <li class="layui-nav-item"><a href="javascript:;">主页</a></li>
+                                <li class="layui-nav-item"><a href="javascript:;">文件</a></li>
+                                <li class="layui-nav-item"><a href="javascript:;">用户</a></li>
+                                <li class="layui-nav-item">
+                                    <a href="javascript:;">系统</a>
+                                    <dl class="layui-nav-child">
+                                        <dd><a href="javascript:;">邮件管理</a></dd>
+                                        <dd><a href="javascript:;">消息管理</a></dd>
+                                        <dd><a href="javascript:;">授权管理</a></dd>
+                                    </dl>
+                                </li>
+                            </ul>
+                            <ul class="layui-nav layui-layout-right">
+                                <li class="layui-nav-item">
+                                    <a href="javascript:;" data-id="{{ data._id }}">
+                                        <img src="{{ data.avatar }}" class="layui-nav-img">
+                                        <span>{{ data.username }}</span>
+                                    </a>
+                                    <dl class="layui-nav-child" id="userInfoDl">
+                                        <dd data-link="/admin/account/info"><a href="javascript:;">基本资料</a></dd>
+                                        <dd data-link="/admin/pages/system"><a href="javascript:;">安全设置</a></dd>
+                                    </dl>
+                                </li>
+                                <li class="layui-nav-item"><a href="javascript:;" id="loginout">退出</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="main">
+                    <div class="main-content">
+                        <iframe src="/admin/pages/home" frameborder="0" width="100%" height="100%"
+                            id="viewsPages"></iframe>
+                    </div>
+                </div>
+                <div class="footer">
+                    <p>© BLOOO.CN - 小掌部落陕西分公司 版权所有</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- js -->
+    <script src="./../../lib/layui/layui.js"></script>
+    <script src="./../../admin/js/config.js"></script>
+    <script src="./../../admin/js/layout.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,30 @@
+{
+  "name": "cifs",
+  "version": "1.0.0",
+  "description": "个人文件管理以及文件共享系统",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "server": "nodemon app.js"
+  },
+  "author": "Zhou Jiahua",
+  "license": "ISC",
+  "dependencies": {
+    "art-template": "^4.13.2",
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-art-template": "^1.0.1",
+    "express-session": "^1.17.1",
+    "gravatar": "^1.8.1",
+    "jsonwebtoken": "^8.5.1",
+    "mem": "^5.1.1",
+    "moment": "^2.27.0",
+    "mongoose": "^5.9.25",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.4.10",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "validator": "^11.1.0"
+  }
+}

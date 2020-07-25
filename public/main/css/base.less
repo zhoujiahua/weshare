@@ -1,0 +1,117 @@
+@import "comm";
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font: 500 12px/150% @yahei;
+    color: @6e6;
+    background-color: @eee;
+}
+
+// reset layui css
+@media screen and (min-width: 1200px) {
+    .layui-container {
+        width: 1200px;
+    }
+}
+
+.layui-container {
+    padding: initial;
+}
+
+.layui-form-select dl dd.layui-this {
+    background-color: @active;
+    color: @fff;
+}
+
+.layui-btn-normal {
+    background-color: @active;
+}
+
+.layui-btn-warm {
+    background-color: @ef9;
+}
+
+.layui-btn-primary:hover {
+    border-color: @active;
+}
+
+.layui-laydate .layui-this {
+    background-color: @active  !important;
+    color: #fff !important;
+}
+
+.layui-form-onswitch {
+    border-color: @active;
+    background-color: @active;
+}
+
+/* 清除浮动 */
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    height: 0;
+    line-height: 0;
+    visibility: hidden;
+    clear: both
+}
+
+.clearfix {
+    *zoom: 1;
+    /*IE/7/6*/
+}
+
+/* 公共样式提取 */
+.w {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.fl {
+    float: left
+}
+
+.fr {
+    float: right
+}
+
+.al {
+    text-align: left
+}
+
+.ac {
+    text-align: center
+}
+
+.ar {
+    text-align: right
+}
+
+.hide {
+    display: none
+}
+
+.show {
+    display: block
+}
+
+.ind {
+    text-indent: -9999em;
+}
+
+.bgactive {
+    background-color: @active  !important;
+    color: @fff  !important;
+}
+
+.fontactive {
+    color: @active  !important;
+}

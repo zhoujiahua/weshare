@@ -1,0 +1,59 @@
+@import "comm";
+
+.wrapper {
+    width: 100%;
+    min-height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: url(./../images/users/login1.jpg) no-repeat center top;
+
+    .header {
+        background-color: @fff;
+
+        // logo-search
+        .logo-search {
+            height: 90px;
+            padding-top: 20px;
+            box-sizing: border-box;
+
+            .logo {
+                width: 260px;
+
+                a {
+                    display: block;
+                    height: 52px;
+                    width: 222px;
+                    height: 51px;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+        }
+    }
+
+    .main {
+        padding-bottom: 130px;
+        box-sizing: border-box;
+    }
+
+    .footer {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+
+        .foot {
+            height: 130px;
+            box-sizing: border-box;
+            padding-top: 26px;
+            text-align: center;
+
+            p {
+                font: 500 12px/28px @yahei;
+                color: @fff;
+            }
+        }
+    }
+}

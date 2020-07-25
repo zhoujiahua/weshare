@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+    <meta name="keywords" content="{{ keyw }}" />
+    <meta name="description" content="{{ desc }}" />
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+    <!-- No Baidu Siteapp-->
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <title>{{ title }}</title>
+
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="./../../admin/css/base.css">
+    <link rel="stylesheet" type="text/css" href="./../../lib/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="./../../admin/css/layout.css">
+    <link rel="stylesheet" type="text/css" href="./../../admin/css/reset.css">
+    {{block "style"}}{{/block}}
+
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body class="layui-layout-body">
+    <div class="wrapper">
+        <div class="layui-layout layui-layout-admin">
+            <!-- header 头部区域 -->
+            <div class="header">
+                <div class="layui-header">
+                    <a href="/admin/pages">
+                        <div class="layui-logo">文件后台管理</div>
+                    </a>
+                    <ul class="layui-nav layui-layout-left">
+                        <li class="layui-nav-item"><a href="/admin/pages">后台信息</a></li>
+                        <li class="layui-nav-item"><a href="/admin/goods">商品管理</a></li>
+                        <li class="layui-nav-item"><a href="/admin/user">用户管理</a></li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">其它系统</a>
+                            <dl class="layui-nav-child">
+                                <dd><a href="">邮件管理</a></dd>
+                                <dd><a href="">消息管理</a></dd>
+                                <dd><a href="">授权管理</a></dd>
+                            </dl>
+                        </li>
+                    </ul>
+                    <ul class="layui-nav layui-layout-right">
+                        <li class="layui-nav-item">
+                            <a href="javascript:;" data-id="1">
+                                {{if data._id}}
+                                <img src="{{ data.avatar }}" class="layui-nav-img">
+                                <span>{{ data.username }}</span>
+                                {{else}}
+                                <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                                <span>JiaHua</span>
+                                {{/if}}
+                            </a>
+                            <dl class="layui-nav-child">
+                                <dd><a href="">基本资料</a></dd>
+                                <dd><a href="">安全设置</a></dd>
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item"><a href="javascript:;" id="loginOut">退出</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- main 主体区域-->
+            <div class="main">
+                <!-- side 左侧菜单-->
+                <div class="side">
+                    <div class="layui-side layui-bg-black">
+                        <div class="layui-side-scroll">
+                            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                                <li class="layui-nav-item layui-nav-itemed">
+                                    <a href="javascript:;">系统设置</a>
+                                    <dl class="layui-nav-child">
+                                        <dd><a href="javascript:;">列表一</a></dd>
+                                        <dd><a href="javascript:;">列表二</a></dd>
+                                        <dd><a href="javascript:;">列表三</a></dd>
+                                        <dd><a href="">超链接</a></dd>
+                                    </dl>
+                                </li>
+                                <li class="layui-nav-item">
+                                    <a href="javascript:;">用户管理</a>
+                                    <dl class="layui-nav-child">
+                                        <dd><a href="/admin/user">用户列表</a></dd>
+                                        <dd><a href="javascript:;">列表二</a></dd>
+                                        <dd><a href="javascript:;">列表三</a></dd>
+                                        <dd><a href="">超链接</a></dd>
+                                    </dl>
+                                </li>
+                                <li class="layui-nav-item">
+                                    <a href="javascript:;">学科设置</a>
+                                    <dl class="layui-nav-child">
+                                        <dd><a href="javascript:;">分类列表</a></dd>
+                                        <dd><a href="javascript:;">列表二</a></dd>
+                                        <dd><a href="">超链接</a></dd>
+                                    </dl>
+                                </li>
+                                <li class="layui-nav-item">
+                                    <a href="javascript:;">档案管理</a>
+                                    <dl class="layui-nav-child">
+                                        <dd><a href="javascript:;">列表一</a></dd>
+                                        <dd><a href="javascript:;">列表二</a></dd>
+                                        <dd><a href="">超链接</a></dd>
+                                    </dl>
+                                </li>
+                                <li class="layui-nav-item"><a href="/" target="_blank">前台首页</a></li>
+                                <li class="layui-nav-item"><a href="/">系统信息</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- content 右侧内容区域 -->
+                <div class="content">
+                    <div class="layui-main layui-body">
+                        {{block "wrapper"}}{{/block}}
+                    </div>
+                </div>
+            </div>
+
+            <!-- footer 底部区域-->
+            <div class="footer">
+                <div class="layui-footer">
+                    © BLOOO.CN - 小掌部落陕西分公司 版权所有
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- js -->
+    <script src="./../../lib/layui/layui.js"></script>
+    <script src="./../../comm/admin_config.js"></script>
+    <script src="./../../admin/js/layout.js"></script>
+    {{block "script"}}
+    <script>
+        layui.use(["comm", "layer"], function () {
+            var comm = layui.comm,
+                $ = layui.$;
+            $("#loginOut").on("click", comm.loginout);
+        })
+    </script>
+    {{/block}}
+</body>
+
+</html>

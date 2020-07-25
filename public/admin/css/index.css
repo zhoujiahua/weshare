@@ -1,0 +1,10 @@
+@charset "UTF-8";
+.welcome-left-container .system-panel {
+  margin: 15px;
+}
+.welcome-left-container .system-panel .panel-body h5 {
+  padding-bottom: 8px;
+}
+.welcome-edge .copyright-panel {
+  margin-top: 15px;
+}

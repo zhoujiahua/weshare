@@ -1,0 +1,260 @@
+{{extend "./../layout/layout.html"}}
+{{block "style"}}
+<link rel="stylesheet" href="./../../admin/css/users.css">
+{{/block}}
+
+{{block "content"}}
+<div class="page-content-wrap">
+	<div class="layui-form" id="table-list">
+		<table id="renderTable" lay-filter="tableList"></table>
+	</div>
+</div>
+{{/block}}
+
+{{block "script"}}
+<!-- 添加弹框 -->
+<script type="text/html" id="addHtml">
+	<div class="add-content" style="padding-top:30px;">
+		<div class="layui-form">
+			<div class="layui-form-item">
+				<label class="layui-form-label">年级</label>
+				<div class="layui-input-inline">
+					<input type="text" name="grade_name" lay-verify="grade_name" placeholder="年级名称" autocomplete="off"
+						class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">排序</label>
+				<div class="layui-input-inline">
+					<input type="text" name="grade_sort" lay-verify="grade_sort" placeholder="排序" autocomplete="off"
+						class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">状态</label>
+				<div class="layui-input-inline">
+					<input type="checkbox" name="grade_status" value="1" lay-filter="grade_status" lay-skin="switch"
+						checked>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<!-- 工具栏模板 -->
+<script type="text/html" id="toolbarDemo">
+	<div class="layui-btn-container">
+		<button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe654;</i></button>
+		<button class="layui-btn layui-btn-warm layui-btn-sm" lay-event="delete"><i class="iconfont">&#xe656;</i></button>
+		<button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="update"><i
+				class="layui-icon">&#xe642;</i></button>
+	</div>
+</script>
+
+<!-- 操作按钮 -->
+<script type="text/html" id="barDemo">
+	<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i></a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon">&#xe640;</i></a>
+</script>
+
+<!-- 编辑弹框 -->
+<script type="text/html" id="editHtml">
+	<div class="add-content" style="padding-top:30px;">
+		<form class="layui-form" lay-filter="editText">
+			<div class="layui-form-item">
+				<label class="layui-form-label">ID</label>
+				<div class="layui-input-inline">
+					<input type="text" name="_id" lay-verify="_id" disabled placeholder="ID"
+						class="layui-input layui-disabled">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">用户图像</label>
+				<div class="layui-input-inline">
+					<input type="text" name="avatar" lay-verify="avatar" placeholder="下载量" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">用户名称</label>
+				<div class="layui-input-inline">
+					<input type="text" name="username" lay-verify="username" placeholder="下载量" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">用户邮箱</label>
+				<div class="layui-input-inline">
+					<input type="text" name="email" lay-verify="email" placeholder="浏览量" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item layui-hide">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit lay-filter="submintText">提交</button>
+					<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</script>
+
+<!-- js -->
+<script src="./../../lib/moment.js"></script>
+<script>
+	layui.use(["layer", "laypage", "tool", "form", "table"], function () {
+		var layer = layui.layer,
+			laypage = layui.laypage,
+			table = layui.table,
+			form = layui.form,
+			tool = layui.tool,
+			$ = layui.$;
+
+		//表格渲染
+		var tableList = table.render({
+			elem: '#renderTable',
+			id: "mm",
+			skin: "line",
+			size: "lg",
+			// toolbar: '#toolbarDemo',
+			height: 700,
+			url: '/api/admin/comm/users/pages', //数据接口
+			page: true, //开启分页
+			cellMinWidth: 80,
+			cols: [
+				[{
+						type: 'checkbox',
+						fixed: 'left'
+					},
+					{
+						field: '_id',
+						title: 'ID',
+						// hide: true
+					},
+					{
+						field: 'username',
+						title: '用户名称'
+					}, {
+						field: 'email',
+						title: '用户邮箱'
+					},
+					{
+						field: 'date',
+						title: '创建时间',
+						sort: true,
+						templet: function (res) {
+							return moment(res.date).format("YYYY-MM-DD HH:mm:ss")
+						}
+					},
+					{
+						fixed: 'right',
+						title: '操作',
+						toolbar: '#barDemo',
+					}
+				]
+			],
+			parseData: function (res) {
+
+			}
+		});
+
+		//监听工具条
+		table.on('tool(tableList)', function (obj) {
+			var d = obj.data;
+			if (obj.event === 'del') {
+				layer.confirm('您确定要进行删除吗？', function (index) {
+					$.getJSON("/api/admin/pages/users/delete/" + d._id, {},
+						function (res) {
+							if (res.code) {
+								return layer.msg(res.msg, {
+									icon: 2
+								});
+							}
+							layer.msg(res.msg, {
+								icon: 1,
+								time: 600
+							}, function () {
+								obj.del();
+								layer.close(index);
+								// window.location.reload();
+								tableList.reload();
+							});
+						}
+					);
+				});
+			} else if (obj.event === 'edit') {
+				layer.open({
+					type: 1,
+					title: "用户信息",
+					closeBtn: 1,
+					area: '380px;',
+					shade: 0.8,
+					id: 'LAY_layuipro', //设定一个id，防止重复弹出
+					btn: ['确认', '关闭'],
+					btnAlign: 'c',
+					resize: false,
+					move: true,
+					moveType: 1, //拖拽模式，0或者1
+					content: $("#editHtml").html(),
+					success: function (layero) {
+						//初始化赋值
+						form.val('editText', {
+							"_id": d._id,
+							"avatar": d.avatar,
+							"username": d.username,
+							"email": d.email
+						})
+						form.render();
+					},
+					yes: function (index, layero) {
+						form.on('submit(submintText)', function (data) {
+							var ed = data.field;
+							d.avatar = ed.avatar;
+							d.username = ed.username;
+							d.email = ed.email;
+							console.log(d)
+
+							//编辑数据提交
+							$.ajax({
+								type: "POST",
+								url: "/api/admin/pages/users/edit",
+								data: d,
+								dataType: "json",
+								beforeSend: function () {
+									loadIndex = layer.load(1);
+								},
+								success: function (res) {
+									console.log(res)
+									var timer = null;
+									if (res.code) {
+										timer = setTimeout(function () {
+											layer.msg(res.msg, {
+												icon: 2
+											})
+											layer.close(loadIndex);
+											window.clearTimeout(
+												timer);
+											return false;
+										}, 600);
+
+									} else {
+										timer = setTimeout(function () {
+											layer.msg(res.msg, {
+												icon: 1
+											});
+											layer.close(loadIndex);
+											layer.close(index);
+											// window.location.reload();
+											tableList.reload();
+										}, 600);
+									}
+								}
+							});
+							return false
+						})
+
+						return $('[lay-filter="submintText"]').trigger("click");
+					}
+				});
+			}
+		});
+	})
+</script>
+{{/block}}
