@@ -79,19 +79,18 @@ app.use((err, req, res, next) => {
   });
 })
 
-// Start Server
-const PORT = process.env.PORT || 5000;
-(async () => {
-  try {
-    await mongoose.connect(keys.mongoURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
-    console.log("Database connect success...");
-    app.listen(PORT, () => {
-      console.log(`Start service:http://localhost:${PORT}`);
+// Connect  Server
+mongoose.connect(keys.mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log("数据库连接成功！")
+    //启动服务器
+    const port = process.env.PORT || 5000;
+    const IP = tools.getIPAdress();
+    app.listen(port, () => {
+      console.log('服务器启动成功:' + IP + ':' + port);
     })
-  } catch (error) {
-    console.log(error);
-  }
-})()
+  })
+  .catch(err => console.log(err));
