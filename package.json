@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "art-template": "^4.13.2",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-art-template": "^1.0.1",
