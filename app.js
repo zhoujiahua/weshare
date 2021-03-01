@@ -1,8 +1,8 @@
+const DBconnect = require("./comm/DBconnect");
 const express = require("express");
-const mongoose = require("mongoose");
 const session = require("express-session");
-const cors = require("cors");
 const keys = require("./config/keys");
+const cors = require("cors");
 const app = express();
 
 // init libaray
@@ -68,6 +68,7 @@ app.use((req, res, next) => {
   err.status = 404;
   next(err);
 })
+
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render("main/error/error", {
@@ -79,18 +80,10 @@ app.use((err, req, res, next) => {
   });
 })
 
-// Connect  Server
-mongoose.connect(keys.mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-  .then(() => {
-    console.log("数据库连接成功！")
-    //启动服务器
+  // Connect  Server
+  (async () => {
+    await DBconnect();
     const port = process.env.PORT || 5000;
     const IP = tools.getIPAdress();
-    app.listen(port, () => {
-      console.log('服务器启动成功:' + IP + ':' + port);
-    })
-  })
-  .catch(err => console.log(err));
+    app.listen(port, () => console.log('Start server:' + IP + ':' + port));
+  })()
