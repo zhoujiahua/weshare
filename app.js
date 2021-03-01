@@ -80,10 +80,9 @@ app.use((err, req, res, next) => {
   });
 })
 
-  // Connect  Server
-  (async () => {
-    await DBconnect();
-    const port = process.env.PORT || 5000;
-    const IP = tools.getIPAdress();
-    app.listen(port, () => console.log('Start server:' + IP + ':' + port));
-  })()
+// Connect  Server
+const port = process.env.PORT || 5000;
+app.listen(port, async () => {
+  await DBconnect();
+  console.log('Start server:http://localhost:' + port)
+});
