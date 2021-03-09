@@ -1,42 +1,28 @@
 const DBconnect = require("./comm/DBconnect");
 const express = require("express");
-const session = require("express-session");
-const keys = require("./config/keys");
-const cors = require("cors");
+const path = require("path");
 const app = express();
 
-// init libaray
-app.use(cors());
+// Used module alias
+require("module-alias/register");
+
+// Used libaray
 app.use(express.json());
-app.use(express.urlencoded({
-  extended: false
-}));
+app.use(express.urlencoded({ extended: false }));
 
-// session
-app.use(session({
-  secret: keys.sessionOrKey,
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    // secure: true,
-    maxAge: 1000 * 60 * 30, // 设置 session 的有效时间，单位毫秒
-  }
-}))
-
-//设置静态公共目录
+// Set static catalog
 app.use(express.static(__dirname + "/public"));
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
-//文件目录权限控制
-app.use("/uploads", (req, res, next) => {
-  if (!req.session.userid) {
-    return res.redirect("/users/login");
-  }
-  next();
-}, express.static(__dirname + "/uploads"));
+// Used middleware initialize
+app.use(require("./middleware/initialize"));
 
-//art-template
+// Used middleware reference
+require("./middleware/reference")(app);
+
+// Used Art Template
 app.set('view cache', false);
-app.set('views', './views');
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.engine('html', require('express-art-template'));
 app.set('view options', {
